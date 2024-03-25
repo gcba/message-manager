@@ -12,7 +12,7 @@ La aplicación cuenta con las siguientes técnologias:
 * Nest.js
   
 ## Arquitectura
-[Diagrama](https://docs.quarkid.org/Arquitectura/arquitectura)
+[Diagrama](https://docs.quarkid.org/Arquitectura/)
 
 ## Documentación
 [Link](https://docs.quarkid.org/Arquitectura/componentes)
