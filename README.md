@@ -2,6 +2,11 @@
 
 Es un componente que actúa como orquestador de mensajes en el cual se gestiona el flujo de trabajo dentro del entorno de SSI. 
 Está diseñado para trabajar dentro de un mismo entorno de red sin medidas de seguridad adicionales.
+Ademas esta pensado para interactuar con un micro servicio encargado de traducir las peticiones del front con este Backend Agent y también de forma inversa. Esta capa la llamamos SSI-Integration la cual en su capa de presentación expone una API REST con las principales funciones: 
+
+1. Generación de invitaciones QR
+2. Generación de invitaciones DeepLink
+3. Almacenamiento de DIDs en la base de datos del cliente
 
 ## Tecnologías
 
@@ -25,10 +30,13 @@ Clonar el repositorio
 - Abrir una terminal y ejecutar:
 
 ```bash
+- cd source
 - yarn
 - yarn build
 - yarn start
 ```
+
+Al instalar las dependecias con el comando "yarn" puede darnos error la libreria "@mattrglobal/node-bbs-signatures", opcional ignorar el mismo.
 
 ## Variables de Entorno
 ## Generales
