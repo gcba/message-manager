@@ -1,3 +1,17 @@
+## [Descripción](https://github.com/gcba/message-manager#descripci%C3%B3n)
+## [Tecnologías](https://github.com/gcba/message-manager#tecnolog%C3%ADas)
+## [Arquitectura](https://docs.quarkid.org/Arquitectura/) y [Documentación](https://docs.quarkid.org/Arquitectura/componentes/)
+## Configuraciones:
+### 1. [Configuraración de entorno local](https://github.com/gcba/message-manager#configuraci%C3%B3n-de-entorno-local)
+### 2. [Variables de Entorno](https://github.com/gcba/message-manager#variables-de-entorno)
+## [Licencia](https://github.com/gcba/message-manager#licencia)
+
+
+
+
+-----------------------------------------------------------------------------
+
+
 # Descripción
 
 Es un componente que actúa como orquestador de mensajes en el cual se gestiona el flujo de trabajo dentro del entorno de SSI. 
