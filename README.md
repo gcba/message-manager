@@ -55,7 +55,7 @@ Al instalar las dependecias con el comando "yarn" puede darnos error la libreria
 ## Pasos para instalar el componente en un servidor
 
 1. Contar con Linux vacío. 
-2. Instalar el componente y sus imágenes, se encuentran [Source](https://github.com/gcba/message-manager/blob/8300a80af5e1735bd0fe71b7e0fbc75386d3e79d/source/Dockerfile)
+2. Instalar el componente y sus imágenes, se encuentran [Docker](https://hub.docker.com/r/quarkid/message-manager)
 
 Para instalar un componente desde Docker Hub en tu servidor, sigue estos pasos:
 
