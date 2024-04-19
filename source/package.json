@@ -1,91 +1,43 @@
-{
-  "name": "backend-agent",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
-  "scripts": {
-    "prebuild": "rm -rf node_modules && npm install && rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start --debug --watch",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "clean": "find . \\( -name 'node_modules' -o -name 'dist' -o -name 'lib' \\) -type d -prune -exec rm -rf '{}' +"
-  },
-  "dependencies": {
-    "@extrimian/agent": "0.9.0-25",
-    "@extrimian/did-resolver": "1.4.4",
-    "@extrimian/kms-storage-vault": "1.6.1",
-    "@extrimian/waci": "1.0.9",
-    "@nestjs/cli": "^9.0.0",
-    "@nestjs/common": "^9.0.0",
-    "@nestjs/core": "^9.0.0",
-    "@nestjs/jwt": "^10.1.0",
-    "@nestjs/mongoose": "^9.2.2",
-    "@nestjs/passport": "^10.0.1",
-    "@nestjs/platform-express": "^9.0.0",
-    "@nestjs/platform-socket.io": "^9.3.9",
-    "@nestjs/websockets": "^9.3.9",
-    "axios": "^1.3.4",
-    "cache-manager": "^5.2.0",
-    "cache-manager-redis-store": "2.0.0",
-    "dotenv": "^16.0.3",
-    "luxon": "^3.3.0",
-    "mongoose": "^7.0.3",
-    "passport": "^0.6.0",
-    "passport-headerapikey": "^1.2.2",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
-  },
-  "devDependencies": {
-    "@nestjs/schematics": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
-    "@types/express": "^4.17.13",
-    "@types/jest": "28.1.8",
-    "@types/luxon": "^3.2.0",
-    "@types/node": "^16.0.0",
-    "@types/supertest": "^2.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-unused-imports": "^2.0.0",
-    "jest": "28.1.3",
-    "prettier": "^2.3.2",
-    "source-map-support": "^0.5.20",
-    "supertest": "^6.1.3",
-    "ts-jest": "28.0.8",
-    "ts-loader": "^9.2.3",
-    "ts-node": "^10.0.0",
-    "tsconfig-paths": "4.1.0",
-    "typescript": "^4.7.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+import { KMSVaultStorage } from '@extrimian/kms-storage-vault';
+import { Inject, Injectable } from '@nestjs/common';
+import { CONFIG, Configuration } from '../config';
+import { AgentSecureStorage } from '@extrimian/agent';
+
+@Injectable()
+export class VaultStorage implements AgentSecureStorage {
+  private vault: KMSVaultStorage;
+  constructor(@Inject(CONFIG) config: Configuration) {
+    this.vault = new KMSVaultStorage({
+      roleId: config.VAULT_ROLE_ID,
+      secretId: config.VAULT_SECRET_ID,
+      vaultUrl: config.VAULT_URL,
+      expirationThresholdMillis: 24
+    });
+  }
+
+  async add(key: string, data: any): Promise<void> {
+    return this.vault.add(key, { data });
+  }
+
+  async get(key: string): Promise<any> {
+    const secret = await this.vault.get(key);
+    return secret.data;
+  }
+
+  async getAll(): Promise<Map<string, any>> {
+    const secretMap = await this.vault.getAll();
+    const result = new Map<string, any>();
+    secretMap.forEach((value, key) => {
+      result.set(key, value.data);
+    });
+    return result;
+  }
+
+  async update(key: string, data: any): Promise<void> {
+    return this.vault.update(key, { data });
+  }
+
+  async remove(key: string): Promise<void> {
+    return this.vault.remove(key);
   }
 }
