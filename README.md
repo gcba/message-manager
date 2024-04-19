@@ -74,11 +74,11 @@ path "secret/*" {
   capabilities = [ "create", "read", "update", "list", "delete" ]
 }
 ```
-5. Ejecutar en una terminal
+5. Ejecutar:
 ```
 cd source
 ```
-6. Ejecturar:
+6. Ejecutar:
 ```
 docker compose up
 ```
