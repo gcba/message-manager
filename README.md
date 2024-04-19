@@ -52,6 +52,37 @@ Clonar el repositorio
 
 Al instalar las dependecias con el comando "yarn" puede darnos error la libreria "@mattrglobal/node-bbs-signatures", opcional ignorar el mismo.
 
+## Pasos para instalar el componente en un servidor
+
+1. Contar con Linux vacío. 
+2. Instalar el componente y sus imágenes, se encuentran [Source](https://github.com/gcba/message-manager/blob/8300a80af5e1735bd0fe71b7e0fbc75386d3e79d/source/Dockerfile)
+
+Para instalar un componente desde Docker Hub en tu servidor, sigue estos pasos:
+
+1. Conéctate al servidor.
+
+2. Instala Docker en el servidor:
+Si aún no tienes Docker instalado en tu servidor, sigue las instrucciones para instalar Docker en tu sistema operativo. Puedes encontrar guías detalladas en la documentación oficial de Docker.
+
+3. Descarga Docker.
+
+4. [Generar vault](https://developer.hashicorp.com/vault/tutorials/auth-methods/approle#step-1-enable-approle-auth-method)
+
+Policy:
+```
+path "secret/*" {
+  capabilities = [ "create", "read", "update", "list", "delete" ]
+}
+```
+5. Ejecutar en una terminal
+```
+cd source
+```
+6. Ejecturar:
+```
+docker compose up
+```
+
 ## Variables de Entorno
 ## Generales
 
